@@ -1,0 +1,218 @@
+{
+  "_readme": "imageName = файл у Assets.xcassets/Sights/{id}.imageset (офлайн). imageURL — запасний варіант.",
+  "_photoCredit": "Фото: Wikimedia Commons (різні ліцензії CC) — перевірте атрибуцію перед публікацією в App Store.",
+  "dataUpdated": "2026-11-08",
+  "places": [
+    {
+      "id": "piazzetta",
+      "name": "Piazzetta di Capri",
+      "category": "landmark",
+      "query": "Piazza Umberto I, Capri",
+      "icon": "building.columns",
+      "latitude": 40.5509,
+      "longitude": 14.243,
+      "imageName": "piazzetta",
+      "steps": ["walk:30"]
+    },
+    {
+      "id": "gardens",
+      "name": "Giardini di Augusto",
+      "category": "viewpoint",
+      "query": "Giardini di Augusto, Capri",
+      "icon": "leaf",
+      "latitude": 40.5473,
+      "longitude": 14.2437,
+      "imageName": "gardens",
+      "steps": ["walk:35"]
+    },
+    {
+      "id": "faraglioni",
+      "name": "Faraglioni",
+      "category": "landmark",
+      "query": "Faraglioni, Capri",
+      "icon": "camera",
+      "latitude": 40.5425,
+      "longitude": 14.2545,
+      "imageName": "faraglioni",
+      "steps": ["walk:50"],
+      "alsoBoat": true
+    },
+    {
+      "id": "jovis",
+      "name": "Villa Jovis",
+      "category": "landmark",
+      "query": "Villa Jovis, Capri",
+      "icon": "building.columns",
+      "latitude": 40.557,
+      "longitude": 14.259,
+      "imageName": "jovis",
+      "steps": ["walk:65"]
+    },
+    {
+      "id": "arco",
+      "name": "Arco Naturale",
+      "category": "viewpoint",
+      "query": "Arco Naturale, Capri",
+      "icon": "camera",
+      "latitude": 40.5525,
+      "longitude": 14.2575,
+      "imageName": "arco",
+      "steps": ["walk:55"]
+    },
+    {
+      "id": "solaro",
+      "name": "Monte Solaro",
+      "category": "viewpoint",
+      "query": "Monte Solaro seggiovia, Anacapri",
+      "icon": "mountain.2",
+      "latitude": 40.5536,
+      "longitude": 14.2128,
+      "imageName": "solaro",
+      "steps": ["busAna", "chairlift"]
+    },
+    {
+      "id": "sanmichele",
+      "name": "Villa San Michele",
+      "category": "landmark",
+      "query": "Villa San Michele, Anacapri",
+      "icon": "house",
+      "latitude": 40.558,
+      "longitude": 14.22,
+      "imageName": "sanmichele",
+      "steps": ["busAna", "walk:5"]
+    },
+    {
+      "id": "grotta",
+      "name": "Grotta Azzurra",
+      "category": "landmark",
+      "query": "Grotta Azzurra, Anacapri",
+      "icon": "drop",
+      "latitude": 40.5608,
+      "longitude": 14.206,
+      "imageName": "grotta",
+      "steps": ["busAna", "busGrotta"],
+      "alsoBoat": true
+    },
+    {
+      "id": "faro",
+      "name": "Faro di Punta Carena",
+      "category": "viewpoint",
+      "query": "Faro di Punta Carena, Anacapri",
+      "icon": "sunset",
+      "latitude": 40.541,
+      "longitude": 14.1965,
+      "imageName": "faro",
+      "steps": ["busAna", "busFaro"]
+    },
+    {
+      "id": "marina-piccola",
+      "name": "Marina Piccola",
+      "category": "beach",
+      "query": "Marina Piccola, Capri",
+      "icon": "beach.umbrella",
+      "latitude": 40.545,
+      "longitude": 14.2433,
+      "imageName": "marina-piccola",
+      "steps": ["walk:45"]
+    },
+    {
+      "id": "da-paolino",
+      "name": "Da Paolino",
+      "category": "restaurant",
+      "query": "Da Paolino, Capri",
+      "icon": "fork.knife",
+      "latitude": 40.552,
+      "longitude": 14.236,
+      "imageName": "da-paolino",
+      "steps": ["walk:40"]
+    },
+    {
+      "id": "lo-smeraldo",
+      "name": "Lo Smeraldo",
+      "category": "restaurant",
+      "query": "Lo Smeraldo, Capri",
+      "icon": "fork.knife",
+      "latitude": 40.5485,
+      "longitude": 14.242,
+      "imageName": "lo-smeraldo",
+      "steps": ["walk:35"]
+    },
+    {
+      "id": "pescheria",
+      "name": "Pescheria Le Botteghe",
+      "category": "restaurant",
+      "query": "Le Botteghe Capri",
+      "icon": "fish",
+      "latitude": 40.5505,
+      "longitude": 14.2428,
+      "imageName": "pescheria",
+      "steps": ["walk:30"]
+    },
+    {
+      "id": "da-gemma",
+      "name": "Ristorante Da Gemma",
+      "category": "restaurant",
+      "query": "Ristorante Da Gemma Capri",
+      "icon": "fork.knife",
+      "latitude": 40.5506,
+      "longitude": 14.2431,
+      "imageName": "da-gemma",
+      "steps": ["walk:25"]
+    },
+    {
+      "id": "capannina",
+      "name": "La Capannina",
+      "category": "restaurant",
+      "query": "La Capannina Capri",
+      "icon": "wineglass",
+      "latitude": 40.5502,
+      "longitude": 14.2436,
+      "imageName": "capannina",
+      "steps": ["walk:28"]
+    },
+    {
+      "id": "aurora",
+      "name": "Ristorante Aurora",
+      "category": "restaurant",
+      "query": "Ristorante Aurora Via Fuorlovado Capri",
+      "icon": "fork.knife",
+      "latitude": 40.5511,
+      "longitude": 14.2422,
+      "imageName": "aurora",
+      "steps": ["walk:25"]
+    },
+    {
+      "id": "riccio",
+      "name": "Il Riccio",
+      "category": "restaurant",
+      "query": "Il Riccio Capri Beach Club Anacapri",
+      "icon": "beach.umbrella",
+      "latitude": 40.5578,
+      "longitude": 14.2055,
+      "imageName": "riccio",
+      "steps": ["busAna", "walk:15"]
+    },
+    {
+      "id": "da-giorgio",
+      "name": "Da Giorgio",
+      "category": "restaurant",
+      "query": "Da Giorgio Capri",
+      "icon": "fork.knife",
+      "latitude": 40.5518,
+      "longitude": 14.2538,
+      "imageName": "da-giorgio",
+      "steps": ["walk:50"]
+    },
+    {
+      "id": "l-orchidea",
+      "name": "L'Orchidea",
+      "category": "restaurant",
+      "query": "Ristorante L'Orchidea Capri",
+      "icon": "fork.knife",
+      "latitude": 40.5508,
+      "longitude": 14.2425,
+      "imageName": "l-orchidea",
+      "steps": ["walk:22"]
+    }
+  ]
+}

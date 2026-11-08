@@ -1,0 +1,185 @@
+{
+  "photos": [
+    {
+      "sightId": "piazzetta",
+      "commonsTitle": "Piazzetta (Capri), 2016.jpg",
+      "license": "CC BY-SA 4.0",
+      "artist": "Ekrem Canli",
+      "page": "https://commons.wikimedia.org/wiki/File:Piazzetta_(Capri),_2016.jpg",
+      "shareAlike": true,
+      "verified": true
+    },
+    {
+      "sightId": "gardens",
+      "commonsTitle": "Giardini di Augusto overlook, seen from the Punta Cannone overlook, Capri, 2010.jpg",
+      "license": "CC0 1.0",
+      "artist": "DimiTalen",
+      "page": "https://commons.wikimedia.org/wiki/File:Giardini_di_Augusto_overlook,_seen_from_the_Punta_Cannone_overlook,_Capri,_2010.jpg",
+      "shareAlike": false,
+      "verified": true
+    },
+    {
+      "sightId": "faraglioni",
+      "commonsTitle": "FaraglioniCapri.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Vladimir ShelYapin (Владимир Шеляпин)",
+      "page": "https://commons.wikimedia.org/wiki/File:FaraglioniCapri.jpg",
+      "shareAlike": true,
+      "verified": true
+    },
+    {
+      "sightId": "jovis",
+      "commonsTitle": "Villa Jovis.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Buckeye~commonswiki",
+      "page": "https://commons.wikimedia.org/wiki/File:Villa_Jovis.jpg",
+      "shareAlike": true,
+      "verified": true
+    },
+    {
+      "sightId": "arco",
+      "commonsTitle": "Arco Naturale (52216175763).jpg",
+      "license": "CC BY 2.0",
+      "artist": "Alessio Maffeis",
+      "page": "https://commons.wikimedia.org/wiki/File:Arco_Naturale_(52216175763).jpg",
+      "shareAlike": false,
+      "verified": true
+    },
+    {
+      "sightId": "solaro",
+      "commonsTitle": "Capri Centre Belvedere.jpg",
+      "license": "CC BY 3.0",
+      "artist": "Paolo Costa Baldi",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_Centre_Belvedere.jpg",
+      "shareAlike": false,
+      "verified": true,
+      "note": "TODO: замінити на фото Monte Solaro, якщо знайдете файл з підходящою ліцензією"
+    },
+    {
+      "sightId": "sanmichele",
+      "commonsTitle": "Overlooking Capri harbour from the rotunda in Villa San Michele Anacapri BW 2013-05-14 13-55-21.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Berthold Werner",
+      "page": "https://commons.wikimedia.org/wiki/File:Overlooking_Capri_harbour_from_the_rotunda_in_Villa_San_Michele_Anacapri_BW_2013-05-14_13-55-21.jpg",
+      "shareAlike": true,
+      "verified": true
+    },
+    {
+      "sightId": "grotta",
+      "commonsTitle": "Grotta azzurra.capri.JPG",
+      "license": "CC BY-SA 4.0",
+      "artist": "Elenagm",
+      "page": "https://commons.wikimedia.org/wiki/File:Grotta_azzurra.capri.JPG",
+      "shareAlike": true,
+      "verified": true
+    },
+    {
+      "sightId": "faro",
+      "commonsTitle": "Faro di Punta Carena, Capri, Italy.jpg",
+      "license": "CC BY 3.0",
+      "artist": "Wolfgang Fricke",
+      "page": "https://commons.wikimedia.org/wiki/File:Faro_di_Punta_Carena,_Capri,_Italy.jpg",
+      "shareAlike": false,
+      "verified": true
+    },
+    {
+      "sightId": "marina-piccola",
+      "commonsTitle": "Capri-marina piccola.jpg",
+      "license": "CC BY 3.0",
+      "artist": "Bicloch",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri-marina_piccola.jpg",
+      "shareAlike": false,
+      "verified": true
+    },
+    {
+      "sightId": "da-paolino",
+      "commonsTitle": "Gränd i Anacapri, Capri (8111976165).jpg",
+      "license": "CC BY 2.0",
+      "artist": "Tekniska museet",
+      "page": "https://commons.wikimedia.org/wiki/File:Gr%C3%A4nd_i_Anacapri,_Capri_(8111976165).jpg",
+      "shareAlike": false,
+      "verified": true,
+      "note": "Ілюстрація вулиці Anacapri (ресторан у лимонному саду) — не фасад Da Paolino."
+    },
+    {
+      "sightId": "lo-smeraldo",
+      "commonsTitle": "Capri Portrait.jpg",
+      "license": "CC BY-SA 4.0",
+      "artist": "Mikhail Gimmelvfarv (Mайкл Гиммельфарб)",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_Portrait.jpg",
+      "shareAlike": true,
+      "verified": true,
+      "note": "TODO: ілюстративне фото Капрі, не сам ресторан"
+    },
+    {
+      "sightId": "pescheria",
+      "commonsTitle": "Capri - 7265.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Jorge Royan",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_-_7265.jpg",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Крам у центрі Capri (делікатесен) — ілюстрація гастрономії острова."
+    },
+    {
+      "sightId": "da-gemma",
+      "commonsTitle": "Capri 2013 04.JPG",
+      "license": "CC BY-SA 3.0",
+      "artist": "Miguel Hermoso Cuesta",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_2013_04.JPG",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Крам у центрі Capri (Santo Stefano) — ілюстративне, не фасад Da Gemma."
+    },
+    {
+      "sightId": "capannina",
+      "commonsTitle": "I08 383 Piazetta.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Falk2",
+      "page": "https://commons.wikimedia.org/wiki/File:I08_383_Piazetta.jpg",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Центр Capri біля Piazzetta — ілюстративне для La Capannina."
+    },
+    {
+      "sightId": "aurora",
+      "commonsTitle": "Capri 2013 02.JPG",
+      "license": "CC BY-SA 3.0",
+      "artist": "Miguel Hermoso Cuesta",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_2013_02.JPG",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Крам у центрі Capri — ілюстративне; Aurora: Via Fuorlovado, Capri."
+    },
+    {
+      "sightId": "riccio",
+      "commonsTitle": "I08 374 Lido del Faro.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Falk2",
+      "page": "https://commons.wikimedia.org/wiki/File:I08_374_Lido_del_Faro.jpg",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Lido del Faro / узбережжя Anacapri — ілюстрація пляжного клубу Il Riccio."
+    },
+    {
+      "sightId": "da-giorgio",
+      "commonsTitle": "Arco Naturale (52216175763).jpg",
+      "license": "CC BY 2.0",
+      "artist": "Alessio Maffeis",
+      "page": "https://commons.wikimedia.org/wiki/File:Arco_Naturale_(52216175763).jpg",
+      "shareAlike": false,
+      "verified": true,
+      "note": "Arco Naturale — ілюстрація східного узвитку, де trattoria Da Giorgio."
+    },
+    {
+      "sightId": "l-orchidea",
+      "commonsTitle": "Capri - 7189.jpg",
+      "license": "CC BY-SA 3.0",
+      "artist": "Jorge Royan",
+      "page": "https://commons.wikimedia.org/wiki/File:Capri_-_7189.jpg",
+      "shareAlike": true,
+      "verified": true,
+      "note": "Limoncello в крамниці Capri — ілюстрація кухні біля Piazzetta."
+    }
+  ]
+}
