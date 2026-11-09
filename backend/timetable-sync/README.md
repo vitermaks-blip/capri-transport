@@ -15,8 +15,10 @@
 | `ship-nap-cap-hyd` | SNAV (Napoli → Capri) |
 | `ship-cap-nap` | Caremar (Capri → Napoli) |
 | `ship-cap-nap-hyd` | SNAV (Capri → Napoli) |
+| `ship-sor-cap` | SNAV (Sorrento → Capri) |
+| `ship-cap-sor` | SNAV (Capri → Sorrento) |
 
-Інші лінії (NLG, автобуси ATC тощо) лишаються з базового `routes.json`.
+Інші лінії (NLG, Medmar, автобуси ATC тощо) лишаються з базового `routes.json`.
 
 ## Локально
 

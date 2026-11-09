@@ -32,7 +32,4 @@ jobs:
           else
             git commit -m "chore: sync Caremar/SNAV timetable feed"
             git push
-            if [ -n "${{ secrets.GITHUB_MIRROR_PUSH_URL }}" ]; then
-              git push "${{ secrets.GITHUB_MIRROR_PUSH_URL }}" HEAD:main
-            fi
           fi

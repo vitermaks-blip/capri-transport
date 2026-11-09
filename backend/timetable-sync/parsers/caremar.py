@@ -10,7 +10,7 @@ from typing import Iterable
 import requests
 
 CAREMAR_URL = "https://easy.caremar.it/en/route-timetable/Napoli-Capri/"
-USER_AGENT = "CapriTransportTimetableSync/1.0 (+https://github.com/maksym-viter/capri-transport)"
+USER_AGENT = "CapriTransportTimetableSync/1.0 (+https://github.com/vitermaks-blip/capri-transport)"
 
 TIME_RE = re.compile(r"(\d{1,2}:\d{2})\s*-\s*\d{1,2}:\d{2}")
 H2_SPLIT = re.compile(r"<h2[^>]*>", re.I)
