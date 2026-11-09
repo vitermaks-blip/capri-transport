@@ -241,10 +241,18 @@ struct SightsView: View {
     @AppStorage("lang") private var langRaw: String = ""
     @Environment(NetworkMonitor.self) private var network
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var categoryFilter: SightCategory?
+    @AppStorage("sights.category") private var categoryFilterRaw = ""
+    private var categoryFilter: SightCategory? {
+        categoryFilterRaw.isEmpty ? nil : SightCategory(rawValue: categoryFilterRaw)
+    }
+    private func setCategoryFilter(_ cat: SightCategory?) {
+        categoryFilterRaw = cat?.rawValue ?? ""
+    }
+    @AppStorage("sights.pendingOpenId") private var pendingOpenId = ""
     @State private var searchText = ""
     @State private var showPhotoCredits = false
     @State private var showAppearance = false
+    @State private var navPath = NavigationPath()
     private var lang: Lang { Lang(rawValue: langRaw) ?? .system }
     private var l: L10n { L10n(lang: lang) }
 
@@ -263,7 +271,7 @@ struct SightsView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPath) {
             TimelineView(.periodic(from: .now, by: 30)) { ctx in
                 let now = Rome.minutesNow(ctx.date)
                 let t = ctx.date.timeIntervalSinceReferenceDate
@@ -281,7 +289,7 @@ struct SightsView: View {
                     sightsList(nowMinutes: now)
                 }
             }
-            .navigationTitle(l("tab.sights"))
+            .navigationTitle(categoryFilter == .landmark ? l("sights.landmarks.title") : l("tab.sights"))
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button { showAppearance = true } label: {
@@ -297,12 +305,20 @@ struct SightsView: View {
                     .accessibilityLabel(l("sights.credits.title"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        ForEach(Lang.allCases) { lg in
-                            Button(lg.rawValue.uppercased()) { langRaw = lg.rawValue }
-                        }
-                    } label: { Label(lang.rawValue.uppercased(), systemImage: "globe") }
+                    LanguageMenu(lang: lang, langRaw: $langRaw)
                 }
+            }
+            .navigationDestination(for: String.self) { sightId in
+                if let sight = SightCatalog.all.first(where: { $0.id == sightId }) {
+                    SightDetailView(sight: sight, l: l)
+                }
+            }
+            .onAppear {
+                applyDefaultLandmarksFilterIfNeeded()
+                consumePendingOpen()
+            }
+            .onChange(of: pendingOpenId) { _, _ in
+                consumePendingOpen()
             }
             .sheet(isPresented: $showAppearance) {
                 AppearanceSettingsView(l: l)
@@ -332,11 +348,13 @@ struct SightsView: View {
 
                     categoryChips
 
+                    if categoryFilter == .landmark {
+                        SightLandmarksGuideCard(l: l)
+                    }
+
                     ForEach(filtered) { s in
                         let journey = journeys[s.id]!
-                        NavigationLink {
-                            SightDetailView(sight: s, l: l)
-                        } label: {
+                        NavigationLink(value: s.id) {
                             HStack(spacing: 12) {
                                 SightPhotoView(sight: s, offlineHint: !network.isOnline)
                                     .frame(width: 72, height: 72)
@@ -358,6 +376,13 @@ struct SightsView: View {
                             .background(.background.secondary, in: RoundedRectangle(cornerRadius: 14))
                         }
                         .buttonStyle(.plain)
+                        .contextMenu {
+                            Button {
+                                SightAppleMaps.openPlace(s, displayName: s.name)
+                            } label: {
+                                Label(l("sights.maps.openPlace"), systemImage: "map")
+                            }
+                        }
                     }
 
                     Button { showPhotoCredits = true } label: {
@@ -379,11 +404,11 @@ struct SightsView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 filterChip(title: l("sights.filter.all"), selected: categoryFilter == nil) {
-                    categoryFilter = nil
+                    setCategoryFilter(nil)
                 }
                 ForEach(SightCategory.allCases) { cat in
                     filterChip(title: l("sights.cat." + cat.rawValue), selected: categoryFilter == cat) {
-                        categoryFilter = cat
+                        setCategoryFilter(cat)
                     }
                 }
             }
@@ -401,6 +426,49 @@ struct SightsView: View {
         }
         .buttonStyle(.plain)
     }
+
+    private func applyDefaultLandmarksFilterIfNeeded() {
+        let key = "sights.didApplyDefaultLandmarks"
+        guard !UserDefaults.standard.bool(forKey: key), categoryFilterRaw.isEmpty else { return }
+        categoryFilterRaw = SightCategory.landmark.rawValue
+        UserDefaults.standard.set(true, forKey: key)
+    }
+
+    private func consumePendingOpen() {
+        let id = pendingOpenId.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !id.isEmpty, SightCatalog.all.contains(where: { $0.id == id }) else { return }
+        pendingOpenId = ""
+        navPath.append(id)
+    }
+}
+
+private struct SightLandmarksGuideCard: View {
+    let l: L10n
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(l("sights.landmarks.title"), systemImage: "building.columns.fill")
+                .font(.headline)
+                .foregroundStyle(AppTheme.highlightText)
+            Text(l("sights.landmarks.guide"))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            Button {
+                SightAppleMaps.openCapriOverview(islandName: l.place(.capri))
+            } label: {
+                Label(l("sights.maps.openIsland"), systemImage: "map")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(AppTheme.accent)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(AppTheme.highlightFill.opacity(0.55), in: RoundedRectangle(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(AppTheme.cardStroke))
+        .accessibilityElement(children: .combine)
+    }
 }
 
 // MARK: - Карта маршруту
@@ -410,6 +478,7 @@ private struct SightRouteMapView: View {
     let path: [CLLocationCoordinate2D]
     let l: L10n
     var offline: Bool = false
+    var onOpenAppleMaps: () -> Void
 
     private var mapPath: [CLLocationCoordinate2D] {
         path.count >= 2 ? path : [PlaceID.mg.coordinate, sight.coordinate]
@@ -427,6 +496,16 @@ private struct SightRouteMapView: View {
             .frame(height: 200)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .accessibilityLabel(l("sights.routeMap.a11y"))
+            .onTapGesture(perform: onOpenAppleMaps)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityHint(l("openAM"))
+
+            Button(action: onOpenAppleMaps) {
+                Label(l("openAM"), systemImage: "map")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
 
             if offline {
                 Label(l("offline.maps"), systemImage: "wifi.slash")
@@ -505,6 +584,21 @@ struct SightDetailView: View {
         }
         .navigationTitle(sight.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(
+                    item: SightShare.text(
+                        sight: sight,
+                        l: l,
+                        deepLink: appState.deepLinkURL(sightID: sight.id)
+                    ),
+                    subject: Text(sight.name),
+                    message: Text(l("s." + sight.id))
+                ) {
+                    Label(l("share.sight"), systemImage: "square.and.arrow.up")
+                }
+            }
+        }
     }
 
     private func detailScroll(journey: SightJourneyEstimate, capriTime: Date) -> some View {
@@ -524,7 +618,13 @@ struct SightDetailView: View {
 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(l("sights.route")).font(.subheadline.weight(.semibold))
-                    SightRouteMapView(sight: sight, path: journey.path, l: l, offline: !network.isOnline)
+                    SightRouteMapView(
+                        sight: sight,
+                        path: journey.path,
+                        l: l,
+                        offline: !network.isOnline,
+                        onOpenAppleMaps: openAppleMapsPlace
+                    )
                     Text(journey.routeDescription)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -554,6 +654,40 @@ struct SightDetailView: View {
                     .foregroundStyle(.secondary)
 
                 Text(l("s." + sight.id)).font(.body)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(l("sights.maps.openPlace"))
+                        .font(.subheadline.weight(.semibold))
+                    Button {
+                        openAppleMapsPlace()
+                    } label: {
+                        Label(l("openAM"), systemImage: "apple.logo")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    if sight.category == .landmark {
+                        Button {
+                            openAppleMapsWalking()
+                        } label: {
+                            Label(l("sights.maps.walkFromMG"), systemImage: "figure.walk")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                        Text(l("sights.maps.apple.hint"))
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                    if network.isOnline {
+                        Link(destination: sight.googleURL) {
+                            Label(l("openGM"), systemImage: "map")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
+                    }
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.background.secondary, in: RoundedRectangle(cornerRadius: 14))
 
                 Text(l("sights.how")).font(.title3.bold()).padding(.top, 4)
 
@@ -607,6 +741,18 @@ struct SightDetailView: View {
 
     private func openTimetable(_ route: Route) {
         appState.show(routeID: route.id)
+    }
+
+    private func openAppleMapsPlace() {
+        SightAppleMaps.openPlace(sight, displayName: sight.name)
+    }
+
+    private func openAppleMapsWalking() {
+        SightAppleMaps.openWalkingFromMarina(
+            to: sight,
+            sightName: sight.name,
+            marinaName: l.place(.mg)
+        )
     }
 }
 

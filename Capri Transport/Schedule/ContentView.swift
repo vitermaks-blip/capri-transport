@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct Selection: Identifiable {
     let route: Route
@@ -17,7 +18,10 @@ struct ContentView: View {
     @State private var showAppearance = false
     @State private var showAbout = false
     @State private var favoritesRevision = 0
+    @State private var ticketSafariURL: URL?
+    @State private var lastNextDepartureId: Int?
     @Environment(NetworkMonitor.self) private var network
+    @State private var catalog = TimetableCatalogStore.shared
     @Environment(\.appState) private var appState
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -31,12 +35,12 @@ struct ContentView: View {
             set: { modeRaw = $0.rawValue; syncStoredRoute() }
         )
     }
-    private var routes: [Route] { Catalog.all.filter { $0.mode == mode } }
+    private var routes: [Route] { catalog.routes.filter { $0.mode == mode } }
     private var matchingRoutes: [Route] {
         routes.filter { $0.from == from && $0.to == to }
     }
     private var route: Route {
-        let fallback = routes.first ?? Catalog.all.first ?? Route(
+        let fallback = routes.first ?? catalog.routes.first ?? Route(
             id: "empty", mode: .ships, from: .mg, to: .capri
         )
         if let r = matchingRoutes.first(where: { $0.id == storedRouteId }) { return r }
@@ -46,16 +50,21 @@ struct ContentView: View {
     }
     private var from: PlaceID {
         if let p = PlaceID(rawValue: fromRaw) { return p }
-        if let r = Catalog.all.first(where: { $0.id == storedRouteId }) { return r.from }
+        if let r = catalog.routes.first(where: { $0.id == storedRouteId }) { return r.from }
         return routes.first?.from ?? .mg
     }
 
     private var to: PlaceID {
         if let p = PlaceID(rawValue: toRaw) { return p }
-        if let r = Catalog.all.first(where: { $0.id == storedRouteId }) { return r.to }
+        if let r = catalog.routes.first(where: { $0.id == storedRouteId }) { return r.to }
         return routes.first(where: { $0.from == from })?.to ?? .capri
     }
     private var cal: Calendar { Rome.calendar }
+
+    /// Щосекунди для «сьогодні» (зворотний відлік), рідше для інших днів.
+    private var liveTickInterval: TimeInterval {
+        cal.isDate(date, inSameDayAs: Rome.today) ? 1 : 60
+    }
 
     private static let placeOrder: [PlaceID] = [
         .naples, .procida, .ischia, .sorrento, .positano, .amalfi, .salerno,
@@ -124,15 +133,19 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
-            TimelineView(.periodic(from: .now, by: 30)) { ctx in
+            TimelineView(.periodic(from: .now, by: liveTickInterval)) { ctx in
                 let now = Rome.minutesNow(ctx.date)
+                let isViewingToday = cal.isDate(date, inSameDayAs: Rome.today)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
-                        DataDisclaimerBanner(l: l)
-                        FavoriteDeparturesSummary(l: l, nowMinutes: now)
-
-                        Text("\(l("clock")): \(Rome.hhmm(now))")
-                            .font(.footnote).foregroundStyle(.secondary)
+                        ScheduleLiveHeader(
+                            l: l,
+                            now: ctx.date,
+                            nowMinutes: now,
+                            viewingDate: date,
+                            catalogSource: catalog.source,
+                            isRefreshing: catalog.isRefreshing
+                        )
 
                         Picker("", selection: modeSelection) {
                             ForEach(Mode.allCases) { Text(l($0.rawValue)).tag($0) }
@@ -144,15 +157,57 @@ struct ContentView: View {
                         endpointPickers
                         serviceVariantChips
 
+                        if matchingRoutes.count > 1 {
+                            OperatorComparisonStrip(
+                                l: l,
+                                routes: matchingRoutes,
+                                date: date,
+                                nowMinutes: now,
+                                selectedRouteId: route.id,
+                                onSelect: { storedRouteId = $0.id }
+                            )
+                        }
+
                         dateNav
 
-                        dayView(now: now)
+                        if isViewingToday {
+                            NextDepartureHero(l: l, nowMinutes: now, preferredRouteId: route.id) { r, dep in
+                                selection = Selection(route: r, departure: dep)
+                            }
+                            if RouteFavorites.ids.count > 1 {
+                                FavoriteDeparturesSummary(l: l, nowMinutes: now)
+                            }
+                        } else {
+                            RouteDayDepartureHero(l: l, route: route, date: date, nowMinutes: now) { r, dep in
+                                selection = Selection(route: r, departure: dep)
+                            }
+                        }
 
-                        Text(l("tip") + " " + l("note"))
-                            .font(.caption).foregroundStyle(.secondary).padding(.top, 8)
+                        scheduleDayBody(now: now)
                     }
                     .readableContentWidth()
                     .padding(.vertical)
+                }
+                .onChange(of: now) { _, newNow in
+                    FavoriteWidgetWriter.update(nowMinutes: now, l: l, preferredRouteId: route.id)
+                    pulseIfNextDepartureChanged(nowMinutes: newNow)
+                    if #available(iOS 16.2, *) {
+                        DepartureLiveActivityManager.sync(
+                            nowMinutes: newNow,
+                            l: l,
+                            preferredRouteId: route.id
+                        )
+                    }
+                }
+                .onAppear {
+                    FavoriteWidgetWriter.update(nowMinutes: now, l: l, preferredRouteId: route.id)
+                    if #available(iOS 16.2, *) {
+                        DepartureLiveActivityManager.sync(
+                            nowMinutes: now,
+                            l: l,
+                            preferredRouteId: route.id
+                        )
+                    }
                 }
             }
             .id(favoritesRevision)
@@ -167,30 +222,19 @@ struct ContentView: View {
                     .accessibilityLabel(l("theme.title"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    HStack(spacing: 16) {
-                        Button {
+                    ScheduleToolbarTrailing(
+                        l: l,
+                        lang: lang,
+                        routeId: route.id,
+                        isOnline: network.isOnline,
+                        catalog: catalog,
+                        langRaw: $langRaw,
+                        showAbout: $showAbout,
+                        onToggleFavorite: {
                             RouteFavorites.toggle(route.id)
                             favoritesRevision += 1
-                        } label: {
-                            let on = RouteFavorites.contains(route.id)
-                            Image(systemName: on ? "star.fill" : "star")
-                                .symbolRenderingMode(on ? .multicolor : .monochrome)
                         }
-                        .accessibilityLabel(
-                            RouteFavorites.contains(route.id) ? l("favorite.remove") : l("favorite.add")
-                        )
-
-                        Button { showAbout = true } label: {
-                            Image(systemName: "info.circle")
-                        }
-                        .accessibilityLabel(l("about.title"))
-
-                        Menu {
-                            ForEach(Lang.allCases) { lg in
-                                Button(lg.rawValue.uppercased()) { langRaw = lg.rawValue }
-                            }
-                        } label: { Label(lang.rawValue.uppercased(), systemImage: "globe") }
-                    }
+                    )
                 }
             }
             .sheet(isPresented: $showAppearance) {
@@ -202,6 +246,10 @@ struct ContentView: View {
             .sheet(item: $selection) { sel in
                 RouteMapSheet(route: sel.route, departure: sel.departure, l: l)
                     .presentationDetents([.large])
+            }
+            .sheet(item: $ticketSafariURL) { url in
+                TicketSafariView(url: url)
+                    .ignoresSafeArea()
             }
             .onAppear {
                 if modeRaw == "funicular" { modeRaw = Mode.ships.rawValue }
@@ -228,7 +276,7 @@ struct ContentView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     ForEach(ids, id: \.self) { rid in
-                        if let r = Catalog.all.first(where: { $0.id == rid }) {
+                        if let r = catalog.routes.first(where: { $0.id == rid }) {
                             Button {
                                 modeRaw = r.mode.rawValue
                                 storedRouteId = rid
@@ -341,7 +389,7 @@ struct ContentView: View {
                                 Text(serviceLabel(r))
                             }
                             .buttonStyle(.bordered)
-                            .tint(route.id == r.id ? AppTheme.accent : .secondary)
+                            .tint(storedRouteId == r.id ? AppTheme.accent : .secondary)
                         }
                     }
                 }
@@ -389,115 +437,73 @@ struct ContentView: View {
 
     // MARK: День
 
-    private func nextService(after today: Date) -> (Date, Departure)? {
-        guard let hit = TimetableQuery.nextService(route: route, from: today, after: Rome.minutesNow()) else {
-            return nil
-        }
-        return (hit.date, hit.departure)
-    }
-
     @ViewBuilder
-    private func dayView(now: Int) -> some View {
-        let isToday = cal.isDate(date, inSameDayAs: Rome.today)
-        let deps = route.departures(on: date)
-
-        // Жовта картка
-        Group {
-            if isToday, let up = deps.first(where: { $0.minute >= now }) {
-                card(title: Rome.hhmm(up.minute),
-                     subtitle: [l.until(up.minute - now), up.op, l.info(route, withOperators: false)]
-                        .compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · "),
-                     tap: Selection(route: route, departure: up))
-            } else if isToday {
-                let next = nextService(after: Rome.today)
-                card(title: deps.isEmpty ? l("none") : l("done"),
-                     subtitle: next.map { "\(l("nextDep")): \(l.date($0.0, "dMMM")), \(Rome.hhmm($0.1.minute))" } ?? l("none"),
-                     tap: nil)
-            } else if let first = deps.first {
-                card(title: Rome.hhmm(first.minute),
-                     subtitle: "\(l("count")): \(deps.count) · \(l.info(route))",
-                     tap: Selection(route: route, departure: first))
-            } else {
-                card(title: l("none"), subtitle: l.info(route), tap: nil)
-            }
-        }
-
-        VStack(spacing: 0) {
-            ForEach(deps) { dep in
-                let past = isToday && dep.minute < now
-                HStack(spacing: 8) {
-                    Button { selection = Selection(route: route, departure: dep) } label: {
-                        HStack {
-                            Text(Rome.hhmm(dep.minute)).font(.title3.monospacedDigit().weight(.semibold))
-                            Text(dep.op ?? "").font(.subheadline).foregroundStyle(.secondary)
-                            Spacer()
-                            if isToday {
-                                Text(past ? l("gone") : l.until(dep.minute - now))
-                                    .font(.footnote).foregroundStyle(.secondary)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-
-                    if let url = route.ticketURL(for: dep) {
-                        if network.isOnline {
-                            Link(destination: url) {
-                                MirroredSymbol(systemName: "ticket", compact: true, font: .callout)
-                                    .frame(width: 36, height: 36)
-                                    .background(AppTheme.accentSoft, in: Circle())
-                            }
-                            .accessibilityLabel(l("buyTicket"))
-                        } else {
-                            Image(systemName: "ticket")
-                                .font(.body)
-                                .foregroundStyle(.tertiary)
-                                .frame(width: 36, height: 36)
-                                .accessibilityLabel(l("buyTicket"))
-                        }
-                    }
-                }
-                .padding(.vertical, 12).padding(.horizontal, 14)
-                .opacity(past ? 0.4 : 1)
-                .accessibilityHint(l("tip"))
-                .contextMenu {
-                    ShareLink(
-                        item: RouteShare.departureText(route: route, departure: dep, on: date, l: l),
-                        subject: Text(l.name(route)),
-                        message: Text(Rome.hhmm(dep.minute))
-                    ) {
-                        Label(l("share.departure"), systemImage: "square.and.arrow.up")
-                    }
-                    Button { selection = Selection(route: route, departure: dep) } label: {
-                        Label(l("sights.routeMap.a11y"), systemImage: "map")
-                    }
-                    if let link = appState.deepLinkURL(routeID: route.id) {
-                        ShareLink(item: link, subject: Text(l.name(route))) {
-                            Label(l("about.deeplink.share"), systemImage: "link")
-                        }
-                    }
-                }
-                Divider()
-            }
-        }
-        .background(.background.secondary, in: RoundedRectangle(cornerRadius: 14))
+    private func pulseIfNextDepartureChanged(nowMinutes: Int) {
+        guard cal.isDate(date, inSameDayAs: Rome.today) else { return }
+        let next = route.departures(on: date).first(where: { $0.minute >= nowMinutes })?.id
+        defer { lastNextDepartureId = next }
+        guard let next, let lastNextDepartureId, next != lastNextDepartureId else { return }
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
     }
 
-    private func card(title: String, subtitle: String, tap: Selection?) -> some View {
-        Button { if let tap { selection = tap } } label: {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title).font(.largeTitle.weight(.heavy)).monospacedDigit()
-                    .minimumScaleFactor(0.65)
-                    .lineLimit(1)
-                Text(subtitle).font(.subheadline)
+    private func scheduleDayBody(now: Int) -> some View {
+        ScheduleDeparturesList(
+            l: l,
+            route: route,
+            date: date,
+            nowMinutes: now,
+            isOnline: network.isOnline,
+            onSelect: { dep in
+                selection = Selection(route: route, departure: dep)
+            },
+            onBuyTicket: { ticketSafariURL = $0 }
+        )
+        .id(route.id + "-\(date.timeIntervalSince1970)-\(catalog.source.rawValue)")
+    }
+}
+
+private struct ScheduleToolbarTrailing: View {
+    let l: L10n
+    let lang: Lang
+    let routeId: String
+    let isOnline: Bool
+    var catalog: TimetableCatalogStore
+    @Binding var langRaw: String
+    @Binding var showAbout: Bool
+    let onToggleFavorite: () -> Void
+
+    var body: some View {
+        HStack(spacing: 16) {
+            if isOnline {
+                Button {
+                    Task { await catalog.refreshFromNetwork() }
+                } label: {
+                    if catalog.isRefreshing {
+                        ProgressView()
+                    } else {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                .disabled(catalog.isRefreshing)
+                .accessibilityLabel(l("catalog.refresh"))
             }
-            .foregroundStyle(AppTheme.highlightText)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(16)
-            .background(AppTheme.highlightFill, in: RoundedRectangle(cornerRadius: 16))
-            .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(AppTheme.cardStroke))
+
+            Button(action: onToggleFavorite) {
+                let on = RouteFavorites.contains(routeId)
+                Image(systemName: on ? "star.fill" : "star")
+                    .symbolRenderingMode(on ? .multicolor : .monochrome)
+            }
+            .accessibilityLabel(
+                RouteFavorites.contains(routeId) ? l("favorite.remove") : l("favorite.add")
+            )
+
+            Button { showAbout = true } label: {
+                Image(systemName: "info.circle")
+            }
+            .accessibilityLabel(l("about.title"))
+
+            LanguageMenu(lang: lang, langRaw: $langRaw)
         }
-        .buttonStyle(.plain)
     }
 }
 

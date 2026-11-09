@@ -11,7 +11,36 @@
     ],
   },
   "files": [
-    { "kind": "folder", "path": "Capri Transport", "target-membership": [ "Capri Transport" ] },
+    {
+      "kind": "folder",
+      "path": "Capri Transport",
+      "target-membership": [
+        "Capri Transport",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "Capri TransportWidget",
+          "inclusions": [
+            "Widget/DepartureActivityAttributes.swift",
+            "Widget/WidgetDepartureSnapshot.swift",
+          ],
+        },
+      ],
+    }, {
+      "kind": "folder",
+      "path": "Capri TransportWidget",
+      "target-membership": [
+        "Capri TransportWidget",
+      ],
+      "membership-exceptions": [
+        {
+          "target": "Capri TransportWidget",
+          "exclusions": [
+            "Info.plist",
+          ],
+        },
+      ],
+    },
     { "kind": "folder", "path": "Capri TransportTests", "target-membership": [ "Capri TransportTests" ] },
     {
       "kind": "group",
@@ -19,6 +48,7 @@
       "children": [
         { "path": "<PRODUCTS>/Capri Transport.app", "id": "66A3F68B30A0BD7300D9C34C", "type": "wrapper.application", "index": false },
         { "path": "<PRODUCTS>/Capri TransportTests.xctest", "id": "77B4E79C41B1CE8410EA078D", "type": "wrapper.cfbundle", "index": false },
+        { "path": "<PRODUCTS>/Capri TransportWidget.appex", "id": "B8E4A9012F3C4D5E6A7B8C9D", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "Capri Transport/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
       ],
     },
   ],
@@ -28,14 +58,23 @@
       "id": "66A3F68A30A0BD7300D9C34C",
       "product": "Products/Capri Transport.app",
       "product-type": "application",
+      "dependencies": [
+        { "target": "Capri TransportWidget", "platforms": [ "ios" ] },
+      ],
       "build-phases": [
         "compile-sources",
         "frameworks",
         "resources",
+        {
+          "kind": "copy",
+          "name": "Embed Foundation Extensions",
+          "bundle-base-path": "plugins-directory",
+        },
       ],
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
         "ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME": "AccentColor",
+        "CODE_SIGN_ENTITLEMENTS": "Capri Transport/Capri Transport.entitlements",
         "CODE_SIGN_STYLE": "Automatic",
         "CURRENT_PROJECT_VERSION": "1",
         "ENABLE_PREVIEWS": "YES",
@@ -93,6 +132,36 @@
         "SWIFT_VERSION": "5.0",
         "TARGETED_DEVICE_FAMILY": "1,2",
         "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/Capri Transport.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Capri Transport",
+      },
+    }, {
+      "name": "Capri TransportWidget",
+      "id": "B8E4A9002F3C4D5E6A7B8C9D",
+      "product": "Products/Capri TransportWidget.appex",
+      "product-type": "app-extension",
+      "build-phases": [
+        "compile-sources",
+        "frameworks",
+        "resources",
+      ],
+      "build-settings": {
+        "APPLICATION_EXTENSION_API_ONLY": "YES",
+        "CODE_SIGN_ENTITLEMENTS": "Capri TransportWidget/CapriTransportWidget.entitlements",
+        "CODE_SIGN_STYLE": "Automatic",
+        "CURRENT_PROJECT_VERSION": "1",
+        "GENERATE_INFOPLIST_FILE": "YES",
+        "INFOPLIST_FILE": "Capri TransportWidget/Info.plist",
+        "IPHONEOS_DEPLOYMENT_TARGET": "17.0",
+        "LD_RUNPATH_SEARCH_PATHS": [
+          "$(inherited)",
+          "@executable_path/Frameworks",
+          "@executable_path/../../Frameworks",
+        ],
+        "MARKETING_VERSION": "1.0",
+        "PRODUCT_BUNDLE_IDENTIFIER": "com.taptap.Capri-Transport.widget",
+        "PRODUCT_NAME": "$(TARGET_NAME)",
+        "SKIP_INSTALL": "YES",
+        "SWIFT_VERSION": "5.0",
+        "TARGETED_DEVICE_FAMILY": "1,2",
       },
     },
   ],

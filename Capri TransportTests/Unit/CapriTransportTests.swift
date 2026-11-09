@@ -64,6 +64,17 @@ final class CatalogMetaTests: XCTestCase {
         XCTAssertEqual(Catalog.dataUpdated, "2026-11-08")
         XCTAssertFalse(Catalog.all.isEmpty)
     }
+
+    func testBundledCatalogDecodes() throws {
+        let bundled = RoutesCatalogLoader.loadBundled()
+        XCTAssertFalse(bundled.routes.isEmpty)
+        XCTAssertEqual(bundled.dataUpdated, "2026-11-08")
+    }
+
+    func testFeedURLAllowlist() {
+        XCTAssertNotNil(SafeURL.feed("https://raw.githubusercontent.com/org/repo/main/api/routes.json"))
+        XCTAssertNil(SafeURL.feed("https://evil.example/routes.json"))
+    }
 }
 
 final class AppStateTests: XCTestCase {
@@ -143,6 +154,24 @@ final class SightCatalogTests: XCTestCase {
         let aurora = SightCatalog.all.first { $0.id == "aurora" }!
         XCTAssertFalse(aurora.steps.contains(.busAna))
         XCTAssertTrue(aurora.steps.contains(.walk(25)))
+    }
+}
+
+final class CatalogFreshnessTests: XCTestCase {
+    func testStaleAfterSevenDays() {
+        XCTAssertFalse(CatalogFreshness.isStale("2026-11-08"))
+        XCTAssertTrue(CatalogFreshness.isStale("2026-10-01"))
+    }
+}
+
+final class AppStateDeepLinkTests: XCTestCase {
+    func testSightDeepLink() {
+        let defaults = UserDefaults(suiteName: "test-\(UUID().uuidString)")!
+        let state = AppState(defaults: defaults)
+        let url = URL(string: "capritransport://sight/faraglioni")!
+        XCTAssertTrue(state.open(url: url))
+        XCTAssertEqual(state.pendingSightID, "faraglioni")
+        XCTAssertEqual(state.tab, .sights)
     }
 }
 

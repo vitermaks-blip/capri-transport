@@ -17,6 +17,13 @@ enum SafeURL {
         "upload.wikimedia.org", "commons.wikimedia.org", "thumb.wikimedia.org",
     ]
 
+    /// HTTPS hosts allowed for remote timetable JSON (`CapriTimetableFeedURL`).
+    private static let feedHosts: Set<String> = [
+        "raw.githubusercontent.com",
+        "gist.githubusercontent.com",
+        "origin.cursor.com",
+    ]
+
     static func https(_ raw: String?) -> URL? {
         guard let raw, let url = URL(string: raw),
               let scheme = url.scheme?.lowercased(), scheme == "https",
@@ -35,6 +42,11 @@ enum SafeURL {
     static func sightImage(_ raw: String?) -> URL? {
         guard let url = https(raw), let host = url.host?.lowercased() else { return nil }
         return imageHosts.contains(where: { host == $0 || host.hasSuffix(".\($0)" ) }) ? url : nil
+    }
+
+    static func feed(_ raw: String?) -> URL? {
+        guard let url = https(raw), let host = url.host?.lowercased() else { return nil }
+        return feedHosts.contains(where: { host == $0 || host.hasSuffix(".\($0)") }) ? url : nil
     }
 
 }

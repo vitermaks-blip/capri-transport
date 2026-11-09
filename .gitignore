@@ -7,3 +7,5 @@ build/
 *.dSYM.zip
 .env
 .env.*
+**/__pycache__/
+*.pyc

@@ -6,7 +6,6 @@ final class AppState {
     enum Tab: String {
         case timetable = "schedule"
         case sights
-        case travels
     }
 
     private let defaults: UserDefaults
@@ -17,6 +16,7 @@ final class AppState {
         static let routeID = "timetable.routeId"
         static let from = "timetable.from"
         static let to = "timetable.to"
+        static let sightID = "sights.pendingOpenId"
     }
 
     init(defaults: UserDefaults = .standard) {
@@ -65,6 +65,10 @@ final class AppState {
             guard let tab = Tab(rawValue: pathID.isEmpty ? (url.query ?? "") : pathID) else { return false }
             show(tab: tab)
             return true
+        case "sight":
+            guard !pathID.isEmpty, SightCatalog.all.contains(where: { $0.id == pathID }) else { return false }
+            show(sightID: pathID)
+            return true
         default:
             return false
         }
@@ -72,6 +76,23 @@ final class AppState {
 
     func deepLinkURL(routeID: String) -> URL? {
         URL(string: "capritransport://route/\(routeID)")
+    }
+
+    func deepLinkURL(sightID: String) -> URL? {
+        URL(string: "capritransport://sight/\(sightID)")
+    }
+
+    func show(sightID: String) {
+        tab = .sights
+        defaults.set(sightID, forKey: Key.sightID)
+    }
+
+    var pendingSightID: String? {
+        defaults.string(forKey: Key.sightID)
+    }
+
+    func clearPendingSight() {
+        defaults.removeObject(forKey: Key.sightID)
     }
 }
 

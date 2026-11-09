@@ -7,6 +7,18 @@ on:
     branches: [main, master]
 
 jobs:
+  timetable-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install -r backend/timetable-sync/requirements.txt
+      - name: Caremar/SNAV parser smoke test
+        run: python backend/timetable-sync/sync.py --dry-run
+
   build-test:
     runs-on: macos-15
     steps:

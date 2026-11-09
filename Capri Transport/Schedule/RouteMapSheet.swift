@@ -7,6 +7,7 @@ struct RouteMapSheet: View {
     let l: L10n
     @Environment(\.dismiss) private var dismiss
     @Environment(NetworkMonitor.self) private var network
+    @State private var ticketSafariURL: URL?
 
     private var from: CLLocationCoordinate2D { route.endpoint(route.from) }
     private var to: CLLocationCoordinate2D { route.endpoint(route.to) }
@@ -52,6 +53,13 @@ struct RouteMapSheet: View {
                     Text(subtitle).font(.subheadline).foregroundStyle(.secondary)
                 }
 
+                if let pier = RoutePier.label(route: route, operator: departure.op, l: l) {
+                    Label(pier, systemImage: "mappin.and.ellipse")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
                 if !network.isOnline {
                     Label(l("offline.maps"), systemImage: "wifi.slash")
                         .font(.footnote)
@@ -73,11 +81,13 @@ struct RouteMapSheet: View {
                     .buttonStyle(.bordered)
                 }
 
-                if let buyTicketURL {
-                    Link(destination: buyTicketURL) {
+                if buyTicketURL != nil {
+                    Button {
+                        ticketSafariURL = buyTicketURL
+                    } label: {
                         Label(l("buyTicket"), systemImage: "ticket").frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(.bordered)
+                    .buttonStyle(.borderedProminent)
                     .tint(AppTheme.accent)
                     .disabled(!network.isOnline)
 
@@ -87,6 +97,10 @@ struct RouteMapSheet: View {
                 }
             }
             .padding()
+            .sheet(item: $ticketSafariURL) { url in
+                TicketSafariView(url: url)
+                    .ignoresSafeArea()
+            }
             .navigationTitle("\(Rome.hhmm(departure.minute)) · \(l.name(route))")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

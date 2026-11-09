@@ -16,6 +16,18 @@ enum Rome {
         return (c.hour ?? 0) * 60 + (c.minute ?? 0)
     }
     static func hhmm(_ m: Int) -> String { String(format: "%02d:%02d", (m / 60) % 24, m % 60) }
+
+    /// Хвилини до відправлення в Europe/Rome (nil, якщо час уже минув).
+    static func minutesUntil(day: Date, departureMinute: Int, from reference: Date = .now) -> Int? {
+        var comps = calendar.dateComponents([.year, .month, .day], from: day)
+        comps.hour = departureMinute / 60
+        comps.minute = departureMinute % 60
+        comps.second = 0
+        guard let at = calendar.date(from: comps) else { return nil }
+        let delta = at.timeIntervalSince(reference)
+        guard delta >= 0 else { return nil }
+        return Int(delta / 60)
+    }
 }
 
 // MARK: - Моделі
@@ -110,15 +122,14 @@ struct Route: Identifiable {
     }
 }
 
-// MARK: - ДАНІ з routes.json (демо; замініть на актуальний розклад)
+// MARK: - ДАНІ розкладу (бандл + мережевий фід)
 
 final class CapriTransportBundle: NSObject {}
 
 enum Catalog {
-    private static let payload = loadCatalog()
-
-    static let all: [Route] = payload.routes
-    static let dataUpdated: String? = payload.dataUpdated
+    static var all: [Route] { CatalogSnapshot.shared.routes }
+    static var dataUpdated: String? { CatalogSnapshot.shared.dataUpdated }
+    static var source: TimetableDataSource { CatalogSnapshot.shared.source }
 
     /// ISO-дата з `routes.json` для відображення в UI.
     static var dataUpdatedLabel: String? {
@@ -133,116 +144,5 @@ enum Catalog {
         out.timeZone = Rome.calendar.timeZone
         out.setLocalizedDateFormatFromTemplate("dMMMMyyyy")
         return out.string(from: d)
-    }
-
-    private static func loadCatalog() -> (routes: [Route], dataUpdated: String?) {
-        let bundle = Bundle(for: CapriTransportBundle.self)
-        guard let url = bundle.url(forResource: "routes", withExtension: "json"),
-              let data = try? Data(contentsOf: url) else {
-            assertionFailure("routes.json не знайдено в бандлі")
-            return ([], nil)
-        }
-        do {
-            let file = try JSONDecoder().decode(CatalogFile.self, from: data)
-            let routes = try file.routes.map { try $0.makeRoute() }
-            return (routes, file.dataUpdated)
-        } catch {
-            assertionFailure("routes.json: \(error)")
-            return ([], nil)
-        }
-    }
-}
-
-// MARK: - Декодування routes.json
-
-private struct CatalogFile: Decodable {
-    let dataUpdated: String?
-    let routes: [RouteDTO]
-}
-
-private struct RouteDTO: Decodable {
-    let id: String
-    let mode: String
-    let from: String
-    let to: String
-    let kind: String?
-    let durationMin: Int?
-    let price: Double?
-    let op: String?
-    let interval: IntervalDTO?
-    let season: SeasonDTO?
-    let weekdays: [Int]?
-    let way: [[Double]]?
-    let departures: [DepartureDTO]?
-    let ticketURL: String?
-    let ticketByOperator: [String: String]?
-
-    func makeRoute() throws -> Route {
-        guard let mode = Mode(rawValue: mode),
-              let from = PlaceID(rawValue: from),
-              let to = PlaceID(rawValue: to) else {
-            throw CatalogDecodeError.badRoute(id)
-        }
-        let explicit: [Departure] = (departures ?? []).map {
-            Departure(
-                minute: CatalogParse.hhmm($0.time),
-                op: $0.op,
-                ticketURL: SafeURL.ticket($0.ticketURL)
-            )
-        }
-        let operatorTickets = (ticketByOperator ?? [:]).compactMapValues(SafeURL.ticket)
-        let intervalTriplet: (Int, Int, Int)? = interval.flatMap { iv in
-            guard iv.every > 0 else { return nil }
-            return (CatalogParse.hhmm(iv.start), CatalogParse.hhmm(iv.end), iv.every)
-        }
-        let seasonRange: ClosedRange<Int>? = season.map { $0.from ... $0.through }
-        let waypoints: [CLLocationCoordinate2D] = (way ?? []).map {
-            guard $0.count == 2 else { return CLLocationCoordinate2D() }
-            return CLLocationCoordinate2D(latitude: $0[0], longitude: $0[1])
-        }
-        return Route(
-            id: id,
-            mode: mode,
-            from: from,
-            to: to,
-            explicit: explicit,
-            interval: intervalTriplet,
-            op: op,
-            kind: kind.flatMap(VesselKind.init(rawValue:)),
-            durationMin: durationMin,
-            price: price,
-            season: seasonRange,
-            weekdays: weekdays.map(Set.init),
-            way: waypoints,
-            ticketURL: SafeURL.ticket(ticketURL),
-            ticketByOperator: operatorTickets
-        )
-    }
-}
-
-private struct DepartureDTO: Decodable {
-    let time: String
-    let op: String?
-    let ticketURL: String?
-}
-
-private struct IntervalDTO: Decodable {
-    let start, end: String
-    let every: Int
-}
-
-private struct SeasonDTO: Decodable {
-    let from, through: Int
-}
-
-private enum CatalogDecodeError: Error {
-    case badRoute(String)
-}
-
-private enum CatalogParse {
-    static func hhmm(_ s: String) -> Int {
-        let p = s.split(separator: ":").compactMap { Int($0) }
-        guard p.count == 2 else { return 0 }
-        return p[0] * 60 + p[1]
     }
 }
