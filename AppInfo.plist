@@ -16,6 +16,6 @@
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>CapriTimetableFeedURL</key>
-	<string>https://raw.githubusercontent.com/maksym-viter/capri-transport/main/api/routes.json</string>
+	<string>https://raw.githubusercontent.com/vitermaks-blip/capri-transport/main/api/routes.json</string>
 </dict>
 </plist>

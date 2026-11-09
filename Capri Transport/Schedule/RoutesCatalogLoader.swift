@@ -14,7 +14,7 @@ enum TimetableDataSource: String, Equatable {
 
 enum TimetableFeedURL {
     /// Hosted feed (same JSON schema as bundled `routes.json`). Override via Info.plist `CapriTimetableFeedURL`.
-    private static let builtin = "https://raw.githubusercontent.com/maksym-viter/capri-transport/main/api/routes.json"
+    private static let builtin = "https://raw.githubusercontent.com/vitermaks-blip/capri-transport/main/api/routes.json"
 
     static var url: URL? {
         if let custom = Bundle.main.object(forInfoDictionaryKey: "CapriTimetableFeedURL") as? String {

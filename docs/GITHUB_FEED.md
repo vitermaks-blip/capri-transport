@@ -2,17 +2,17 @@
 
 The app loads **`api/routes.json`** from:
 
-`https://raw.githubusercontent.com/maksym-viter/capri-transport/main/api/routes.json`
+`https://raw.githubusercontent.com/vitermaks-blip/capri-transport/main/api/routes.json`
 
 (configured in `AppInfo.plist` → `CapriTimetableFeedURL`).
 
 ## One-time setup
 
-1. Create (or use) GitHub repo **`maksym-viter/capri-transport`** with branch **`main`**.
+1. Create (or use) GitHub repo **`vitermaks-blip/capri-transport`** with branch **`main`**.
 2. Add a second remote on your machine:
 
    ```bash
-   git remote add github https://github.com/maksym-viter/capri-transport.git
+   git remote add github https://github.com/vitermaks-blip/capri-transport.git
    ```
 
 3. Push **`main`** (must include `api/routes.json` at repo root):
@@ -23,7 +23,7 @@ The app loads **`api/routes.json`** from:
 
 4. Verify in a browser:
 
-   `https://raw.githubusercontent.com/maksym-viter/capri-transport/main/api/routes.json`
+   `https://raw.githubusercontent.com/vitermaks-blip/capri-transport/main/api/routes.json`
 
 ## Automated updates
 
