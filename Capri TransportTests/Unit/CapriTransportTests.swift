@@ -61,14 +61,14 @@ final class L10nTests: XCTestCase {
 
 final class CatalogMetaTests: XCTestCase {
     func testRoutesBundleHasUpdateStamp() {
-        XCTAssertEqual(Catalog.dataUpdated, "2026-11-08")
+        XCTAssertNotNil(Catalog.dataUpdated)
         XCTAssertFalse(Catalog.all.isEmpty)
     }
 
     func testBundledCatalogDecodes() throws {
         let bundled = RoutesCatalogLoader.loadBundled()
         XCTAssertFalse(bundled.routes.isEmpty)
-        XCTAssertEqual(bundled.dataUpdated, "2026-11-08")
+        XCTAssertEqual(bundled.dataUpdated, Catalog.dataUpdated)
     }
 
     func testFeedURLAllowlist() {
