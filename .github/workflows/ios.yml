@@ -28,14 +28,28 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Detect project format
+        id: project
+        run: |
+          if [ -f "Capri Transport.xcodeproj/project.xcproj" ] && [ ! -f "Capri Transport.xcodeproj/project.pbxproj" ]; then
+            echo "xcproj_only=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Note (Xcode 27 project on CI)
+        if: steps.project.outputs.xcproj_only == 'true'
+        run: |
+          echo "::notice::This repo uses project.xcproj (Xcode 27+). GitHub macos-15 runners expect project.pbxproj."
+          echo "Build & test on your Mac (Xcode 27) before TestFlight — see docs/TESTFLIGHT.md"
       - name: Select Xcode
+        if: steps.project.outputs.xcproj_only != 'true'
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
       - name: Build
+        if: steps.project.outputs.xcproj_only != 'true'
         run: |
           xcodebuild -scheme "Capri Transport" \
             -destination 'generic/platform=iOS Simulator' \
             -quiet build
       - name: Resolve iOS Simulator
+        if: steps.project.outputs.xcproj_only != 'true'
         id: sim
         run: |
           for model in "iPhone 16" "iPhone 17" "iPhone 15"; do
@@ -47,6 +61,7 @@ jobs:
           name="$(xcrun simctl list devices available | awk -F'[()]' '/iPhone [0-9]/ {gsub(/^ +| +$/, "", $1); print $1; exit}')"
           echo "name=$name" >> "$GITHUB_OUTPUT"
       - name: Test
+        if: steps.project.outputs.xcproj_only != 'true'
         run: |
           xcodebuild -scheme "Capri Transport" \
             -destination "platform=iOS Simulator,name=${{ steps.sim.outputs.name }}" \
