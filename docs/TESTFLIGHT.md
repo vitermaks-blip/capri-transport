@@ -1,5 +1,17 @@
 # TestFlight checklist (Capri Transport)
 
+## Швидкий старт (5 хвилин у Xcode)
+
+1. Відкрий **`Capri Transport.xcodeproj`** (потрібен **Xcode 27+**).
+2. Зверху обери **Capri Transport** scheme + **Any iOS Device (arm64)** (не симулятор).
+3. Targets **Capri Transport** і **Capri TransportWidget** → **Signing & Capabilities** → свій **Team**, увімкни **Automatically manage signing**, перевір App Group `group.com.taptap.Capri-Transport` на обох.
+4. **Product → Archive** → після збірки **Distribute App** → **App Store Connect** → **Upload**.
+5. [App Store Connect](https://appstoreconnect.apple.com) → **TestFlight** → додай себе як тестера → встанови з TestFlight на iPhone.
+
+Тексти для магазину: `appstore/en-US/metadata.md` та `appstore/it/metadata.md`.
+
+**CI на GitHub:** зараз зелений **timetable-smoke**; повний `xcodebuild` на runner’ах чекає на Xcode 27 у CI (проєкт у форматі `project.xcproj`). Збирай на Mac перед релізом.
+
 ## Prerequisites
 
 - Apple Developer account (Team ID configured in Xcode).
