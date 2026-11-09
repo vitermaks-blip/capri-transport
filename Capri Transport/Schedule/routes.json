@@ -1,6 +1,6 @@
 {
-  "_readme": "Демо-мережа кораблів Італії (материкові порти, острови, Капрі). Часи й сезони — орієнтовні.",
-  "dataUpdated": "2026-11-08",
+  "_readme": "Демо-мережа кораблів Італії (материкові порти, острови, Капрі). Часи й сезони — орієнтовні. | Synced Caremar/SNAV 2026-11-10 (backend/timetable-sync).",
+  "dataUpdated": "2026-11-10",
   "routes": [
     {
       "id": "ship-nap-cap-hyd",
@@ -15,22 +15,82 @@
         "Alilauro": "https://www.alilauro.it/"
       },
       "departures": [
-        { "time": "06:30", "op": "NLG" },
-        { "time": "07:15", "op": "SNAV" },
-        { "time": "08:00", "op": "Alilauro" },
-        { "time": "08:45", "op": "NLG" },
-        { "time": "09:30", "op": "SNAV" },
-        { "time": "10:20", "op": "Alilauro" },
-        { "time": "11:10", "op": "NLG" },
-        { "time": "12:00", "op": "SNAV" },
-        { "time": "13:00", "op": "NLG" },
-        { "time": "14:00", "op": "Alilauro" },
-        { "time": "15:15", "op": "SNAV" },
-        { "time": "16:30", "op": "NLG" },
-        { "time": "17:20", "op": "Alilauro" },
-        { "time": "18:10", "op": "SNAV" },
-        { "time": "19:00", "op": "NLG" },
-        { "time": "20:00", "op": "Alilauro" }
+        {
+          "time": "06:30",
+          "op": "NLG"
+        },
+        {
+          "time": "07:00",
+          "op": "SNAV"
+        },
+        {
+          "time": "08:00",
+          "op": "Alilauro"
+        },
+        {
+          "time": "08:05",
+          "op": "SNAV"
+        },
+        {
+          "time": "08:45",
+          "op": "NLG"
+        },
+        {
+          "time": "09:30",
+          "op": "SNAV"
+        },
+        {
+          "time": "10:20",
+          "op": "Alilauro"
+        },
+        {
+          "time": "11:10",
+          "op": "NLG"
+        },
+        {
+          "time": "11:35",
+          "op": "SNAV"
+        },
+        {
+          "time": "12:40",
+          "op": "SNAV"
+        },
+        {
+          "time": "13:00",
+          "op": "NLG"
+        },
+        {
+          "time": "14:00",
+          "op": "Alilauro"
+        },
+        {
+          "time": "14:40",
+          "op": "SNAV"
+        },
+        {
+          "time": "16:30",
+          "op": "NLG"
+        },
+        {
+          "time": "16:30",
+          "op": "SNAV"
+        },
+        {
+          "time": "17:20",
+          "op": "Alilauro"
+        },
+        {
+          "time": "19:00",
+          "op": "NLG"
+        },
+        {
+          "time": "19:15",
+          "op": "SNAV"
+        },
+        {
+          "time": "20:00",
+          "op": "Alilauro"
+        }
       ]
     },
     {
@@ -48,23 +108,78 @@
         "Medmar": "https://www.medmargroup.it/"
       },
       "departures": [
-        { "time": "07:00", "op": "Medmar" },
-        { "time": "07:20", "op": "Caremar" },
-        { "time": "08:10", "op": "NLG" },
-        { "time": "09:10", "op": "Caremar" },
-        { "time": "09:50", "op": "SNAV" },
-        { "time": "10:45", "op": "Alilauro" },
-        { "time": "11:30", "op": "NLG" },
-        { "time": "12:30", "op": "Caremar" },
-        { "time": "13:20", "op": "Medmar" },
-        { "time": "14:15", "op": "SNAV" },
-        { "time": "15:00", "op": "Alilauro" },
-        { "time": "16:00", "op": "NLG" },
-        { "time": "17:00", "op": "Caremar" },
-        { "time": "17:40", "op": "SNAV" },
-        { "time": "18:30", "op": "Medmar" },
-        { "time": "19:05", "op": "Caremar" },
-        { "time": "20:15", "op": "NLG" }
+        {
+          "time": "05:35",
+          "op": "Caremar"
+        },
+        {
+          "time": "07:00",
+          "op": "Medmar"
+        },
+        {
+          "time": "08:10",
+          "op": "NLG"
+        },
+        {
+          "time": "09:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "09:50",
+          "op": "SNAV"
+        },
+        {
+          "time": "10:45",
+          "op": "Alilauro"
+        },
+        {
+          "time": "11:30",
+          "op": "NLG"
+        },
+        {
+          "time": "12:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "13:20",
+          "op": "Medmar"
+        },
+        {
+          "time": "13:30",
+          "op": "Caremar"
+        },
+        {
+          "time": "14:15",
+          "op": "SNAV"
+        },
+        {
+          "time": "15:00",
+          "op": "Alilauro"
+        },
+        {
+          "time": "16:00",
+          "op": "NLG"
+        },
+        {
+          "time": "17:25",
+          "op": "Caremar"
+        },
+        {
+          "time": "17:40",
+          "op": "SNAV"
+        },
+        {
+          "time": "18:30",
+          "op": "Medmar"
+        },
+        {
+          "time": "19:40",
+          "op": "Caremar"
+        },
+        {
+          "time": "20:15",
+          "op": "NLG"
+        }
       ]
     },
     {
@@ -74,17 +189,35 @@
       "to": "sorrento",
       "kind": "hyd",
       "durationMin": 35,
-      "season": { "from": 501, "through": 930 },
+      "season": {
+        "from": 501,
+        "through": 930
+      },
       "ticketByOperator": {
         "NLG": "https://www.navlib.it/",
         "SNAV": "https://www.snav.it/"
       },
       "departures": [
-        { "time": "08:00", "op": "NLG" },
-        { "time": "10:30", "op": "SNAV" },
-        { "time": "13:00", "op": "NLG" },
-        { "time": "16:00", "op": "SNAV" },
-        { "time": "18:30", "op": "NLG" }
+        {
+          "time": "08:00",
+          "op": "NLG"
+        },
+        {
+          "time": "10:30",
+          "op": "SNAV"
+        },
+        {
+          "time": "13:00",
+          "op": "NLG"
+        },
+        {
+          "time": "16:00",
+          "op": "SNAV"
+        },
+        {
+          "time": "18:30",
+          "op": "NLG"
+        }
       ]
     },
     {
@@ -94,12 +227,24 @@
       "to": "capri",
       "kind": "hyd",
       "durationMin": 70,
-      "season": { "from": 515, "through": 915 },
+      "season": {
+        "from": 515,
+        "through": 915
+      },
       "ticketURL": "https://www.travelmar.it/",
       "departures": [
-        { "time": "09:00", "op": "Travelmar" },
-        { "time": "12:30", "op": "Travelmar" },
-        { "time": "16:00", "op": "Travelmar" }
+        {
+          "time": "09:00",
+          "op": "Travelmar"
+        },
+        {
+          "time": "12:30",
+          "op": "Travelmar"
+        },
+        {
+          "time": "16:00",
+          "op": "Travelmar"
+        }
       ]
     },
     {
@@ -109,12 +254,24 @@
       "to": "salerno",
       "kind": "hyd",
       "durationMin": 70,
-      "season": { "from": 515, "through": 915 },
+      "season": {
+        "from": 515,
+        "through": 915
+      },
       "ticketURL": "https://www.travelmar.it/",
       "departures": [
-        { "time": "08:00", "op": "Travelmar" },
-        { "time": "11:30", "op": "Travelmar" },
-        { "time": "15:00", "op": "Travelmar" }
+        {
+          "time": "08:00",
+          "op": "Travelmar"
+        },
+        {
+          "time": "11:30",
+          "op": "Travelmar"
+        },
+        {
+          "time": "15:00",
+          "op": "Travelmar"
+        }
       ]
     },
     {
@@ -124,13 +281,30 @@
       "to": "capri",
       "kind": "hyd",
       "durationMin": 55,
-      "season": { "from": 415, "through": 1031 },
-      "ticketByOperator": { "Alilauro": "https://www.alilauro.it/" },
+      "season": {
+        "from": 415,
+        "through": 1031
+      },
+      "ticketByOperator": {
+        "Alilauro": "https://www.alilauro.it/"
+      },
       "departures": [
-        { "time": "09:15", "op": "Alilauro" },
-        { "time": "11:45", "op": "Alilauro" },
-        { "time": "15:30", "op": "Alilauro" },
-        { "time": "18:00", "op": "Alilauro" }
+        {
+          "time": "09:15",
+          "op": "Alilauro"
+        },
+        {
+          "time": "11:45",
+          "op": "Alilauro"
+        },
+        {
+          "time": "15:30",
+          "op": "Alilauro"
+        },
+        {
+          "time": "18:00",
+          "op": "Alilauro"
+        }
       ]
     },
     {
@@ -140,13 +314,30 @@
       "to": "amalfi",
       "kind": "hyd",
       "durationMin": 55,
-      "season": { "from": 415, "through": 1031 },
-      "ticketByOperator": { "Alilauro": "https://www.alilauro.it/" },
+      "season": {
+        "from": 415,
+        "through": 1031
+      },
+      "ticketByOperator": {
+        "Alilauro": "https://www.alilauro.it/"
+      },
       "departures": [
-        { "time": "08:30", "op": "Alilauro" },
-        { "time": "11:00", "op": "Alilauro" },
-        { "time": "14:45", "op": "Alilauro" },
-        { "time": "17:15", "op": "Alilauro" }
+        {
+          "time": "08:30",
+          "op": "Alilauro"
+        },
+        {
+          "time": "11:00",
+          "op": "Alilauro"
+        },
+        {
+          "time": "14:45",
+          "op": "Alilauro"
+        },
+        {
+          "time": "17:15",
+          "op": "Alilauro"
+        }
       ]
     },
     {
@@ -156,12 +347,26 @@
       "to": "capri",
       "kind": "hyd",
       "durationMin": 50,
-      "season": { "from": 501, "through": 930 },
-      "ticketByOperator": { "NLG": "https://www.navlib.it/" },
+      "season": {
+        "from": 501,
+        "through": 930
+      },
+      "ticketByOperator": {
+        "NLG": "https://www.navlib.it/"
+      },
       "departures": [
-        { "time": "09:30", "op": "NLG" },
-        { "time": "13:00", "op": "NLG" },
-        { "time": "17:00", "op": "NLG" }
+        {
+          "time": "09:30",
+          "op": "NLG"
+        },
+        {
+          "time": "13:00",
+          "op": "NLG"
+        },
+        {
+          "time": "17:00",
+          "op": "NLG"
+        }
       ]
     },
     {
@@ -171,12 +376,26 @@
       "to": "positano",
       "kind": "hyd",
       "durationMin": 50,
-      "season": { "from": 501, "through": 930 },
-      "ticketByOperator": { "NLG": "https://www.navlib.it/" },
+      "season": {
+        "from": 501,
+        "through": 930
+      },
+      "ticketByOperator": {
+        "NLG": "https://www.navlib.it/"
+      },
       "departures": [
-        { "time": "08:45", "op": "NLG" },
-        { "time": "12:15", "op": "NLG" },
-        { "time": "16:15", "op": "NLG" }
+        {
+          "time": "08:45",
+          "op": "NLG"
+        },
+        {
+          "time": "12:15",
+          "op": "NLG"
+        },
+        {
+          "time": "16:15",
+          "op": "NLG"
+        }
       ]
     },
     {
@@ -186,12 +405,26 @@
       "to": "capri",
       "kind": "cat",
       "durationMin": 55,
-      "season": { "from": 601, "through": 831 },
-      "ticketByOperator": { "Caremar": "https://www.caremar.it/" },
+      "season": {
+        "from": 601,
+        "through": 831
+      },
+      "ticketByOperator": {
+        "Caremar": "https://www.caremar.it/"
+      },
       "departures": [
-        { "time": "08:30", "op": "Caremar" },
-        { "time": "11:00", "op": "Caremar" },
-        { "time": "16:30", "op": "Caremar" }
+        {
+          "time": "08:30",
+          "op": "Caremar"
+        },
+        {
+          "time": "11:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "16:30",
+          "op": "Caremar"
+        }
       ]
     },
     {
@@ -201,12 +434,26 @@
       "to": "ischia",
       "kind": "cat",
       "durationMin": 55,
-      "season": { "from": 601, "through": 831 },
-      "ticketByOperator": { "Caremar": "https://www.caremar.it/" },
+      "season": {
+        "from": 601,
+        "through": 831
+      },
+      "ticketByOperator": {
+        "Caremar": "https://www.caremar.it/"
+      },
       "departures": [
-        { "time": "07:45", "op": "Caremar" },
-        { "time": "10:15", "op": "Caremar" },
-        { "time": "15:45", "op": "Caremar" }
+        {
+          "time": "07:45",
+          "op": "Caremar"
+        },
+        {
+          "time": "10:15",
+          "op": "Caremar"
+        },
+        {
+          "time": "15:45",
+          "op": "Caremar"
+        }
       ]
     },
     {
@@ -216,11 +463,22 @@
       "to": "capri",
       "kind": "cat",
       "durationMin": 40,
-      "ticketByOperator": { "Caremar": "https://www.caremar.it/" },
+      "ticketByOperator": {
+        "Caremar": "https://www.caremar.it/"
+      },
       "departures": [
-        { "time": "08:00", "op": "Caremar" },
-        { "time": "12:00", "op": "Caremar" },
-        { "time": "17:30", "op": "Caremar" }
+        {
+          "time": "08:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "12:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "17:30",
+          "op": "Caremar"
+        }
       ]
     },
     {
@@ -230,11 +488,22 @@
       "to": "procida",
       "kind": "cat",
       "durationMin": 40,
-      "ticketByOperator": { "Caremar": "https://www.caremar.it/" },
+      "ticketByOperator": {
+        "Caremar": "https://www.caremar.it/"
+      },
       "departures": [
-        { "time": "07:15", "op": "Caremar" },
-        { "time": "11:15", "op": "Caremar" },
-        { "time": "16:45", "op": "Caremar" }
+        {
+          "time": "07:15",
+          "op": "Caremar"
+        },
+        {
+          "time": "11:15",
+          "op": "Caremar"
+        },
+        {
+          "time": "16:45",
+          "op": "Caremar"
+        }
       ]
     },
     {
@@ -250,14 +519,58 @@
         "Alilauro": "https://www.alilauro.it/"
       },
       "departures": [
-        { "time": "06:50", "op": "NLG" },
-        { "time": "08:40", "op": "SNAV" },
-        { "time": "10:25", "op": "Alilauro" },
-        { "time": "12:10", "op": "NLG" },
-        { "time": "14:30", "op": "SNAV" },
-        { "time": "16:15", "op": "Alilauro" },
-        { "time": "18:00", "op": "NLG" },
-        { "time": "19:40", "op": "SNAV" }
+        {
+          "time": "06:50",
+          "op": "NLG"
+        },
+        {
+          "time": "06:50",
+          "op": "SNAV"
+        },
+        {
+          "time": "08:05",
+          "op": "SNAV"
+        },
+        {
+          "time": "09:05",
+          "op": "SNAV"
+        },
+        {
+          "time": "10:25",
+          "op": "Alilauro"
+        },
+        {
+          "time": "11:35",
+          "op": "SNAV"
+        },
+        {
+          "time": "12:10",
+          "op": "NLG"
+        },
+        {
+          "time": "13:45",
+          "op": "SNAV"
+        },
+        {
+          "time": "15:25",
+          "op": "SNAV"
+        },
+        {
+          "time": "16:15",
+          "op": "Alilauro"
+        },
+        {
+          "time": "16:30",
+          "op": "SNAV"
+        },
+        {
+          "time": "18:00",
+          "op": "NLG"
+        },
+        {
+          "time": "18:10",
+          "op": "SNAV"
+        }
       ]
     },
     {
@@ -275,14 +588,54 @@
         "Medmar": "https://www.medmargroup.it/"
       },
       "departures": [
-        { "time": "06:40", "op": "Caremar" },
-        { "time": "08:30", "op": "NLG" },
-        { "time": "10:15", "op": "SNAV" },
-        { "time": "12:00", "op": "Alilauro" },
-        { "time": "14:30", "op": "Caremar" },
-        { "time": "16:45", "op": "NLG" },
-        { "time": "18:20", "op": "SNAV" },
-        { "time": "19:50", "op": "Medmar" }
+        {
+          "time": "06:40",
+          "op": "Caremar"
+        },
+        {
+          "time": "08:30",
+          "op": "NLG"
+        },
+        {
+          "time": "10:15",
+          "op": "SNAV"
+        },
+        {
+          "time": "11:00",
+          "op": "Caremar"
+        },
+        {
+          "time": "12:00",
+          "op": "Alilauro"
+        },
+        {
+          "time": "12:25",
+          "op": "Caremar"
+        },
+        {
+          "time": "15:38",
+          "op": "Caremar"
+        },
+        {
+          "time": "16:45",
+          "op": "NLG"
+        },
+        {
+          "time": "17:40",
+          "op": "Caremar"
+        },
+        {
+          "time": "18:20",
+          "op": "SNAV"
+        },
+        {
+          "time": "19:50",
+          "op": "Medmar"
+        },
+        {
+          "time": "20:17",
+          "op": "Caremar"
+        }
       ]
     },
     {
@@ -292,18 +645,58 @@
       "to": "capri",
       "kind": "hyd",
       "durationMin": 25,
-      "season": { "from": 401, "through": 1031 },
+      "season": {
+        "from": 401,
+        "through": 1031
+      },
       "ticketByOperator": {
         "NLG": "https://www.navlib.it/"
       },
       "departures": [
-        { "time": "07:45", "op": "Gescab" },
-        { "time": "09:00", "op": "NLG" },
-        { "time": "10:30", "op": "Laser Capri" },
-        { "time": "12:15", "op": "Gescab" },
-        { "time": "14:00", "op": "NLG" },
-        { "time": "16:10", "op": "Laser Capri" },
-        { "time": "17:30", "op": "Gescab" }
+        {
+          "time": "07:45",
+          "op": "Gescab"
+        },
+        {
+          "time": "08:20",
+          "op": "SNAV"
+        },
+        {
+          "time": "09:00",
+          "op": "NLG"
+        },
+        {
+          "time": "10:30",
+          "op": "Laser Capri"
+        },
+        {
+          "time": "10:35",
+          "op": "SNAV"
+        },
+        {
+          "time": "12:15",
+          "op": "Gescab"
+        },
+        {
+          "time": "14:00",
+          "op": "NLG"
+        },
+        {
+          "time": "14:05",
+          "op": "SNAV"
+        },
+        {
+          "time": "16:10",
+          "op": "Laser Capri"
+        },
+        {
+          "time": "16:35",
+          "op": "SNAV"
+        },
+        {
+          "time": "17:30",
+          "op": "Gescab"
+        }
       ]
     },
     {
@@ -313,18 +706,78 @@
       "to": "sorrento",
       "kind": "hyd",
       "durationMin": 25,
-      "season": { "from": 401, "through": 1031 },
+      "season": {
+        "from": 401,
+        "through": 1031
+      },
       "ticketByOperator": {
         "NLG": "https://www.navlib.it/"
       },
       "departures": [
-        { "time": "08:20", "op": "Gescab" },
-        { "time": "09:50", "op": "NLG" },
-        { "time": "11:30", "op": "Laser Capri" },
-        { "time": "13:15", "op": "Gescab" },
-        { "time": "15:00", "op": "NLG" },
-        { "time": "17:00", "op": "Laser Capri" },
-        { "time": "18:30", "op": "Gescab" }
+        {
+          "time": "01:00",
+          "op": "SNAV"
+        },
+        {
+          "time": "03:00",
+          "op": "SNAV"
+        },
+        {
+          "time": "06:00",
+          "op": "SNAV"
+        },
+        {
+          "time": "07:35",
+          "op": "SNAV"
+        },
+        {
+          "time": "08:20",
+          "op": "Gescab"
+        },
+        {
+          "time": "09:15",
+          "op": "SNAV"
+        },
+        {
+          "time": "09:30",
+          "op": "SNAV"
+        },
+        {
+          "time": "09:50",
+          "op": "NLG"
+        },
+        {
+          "time": "11:30",
+          "op": "Laser Capri"
+        },
+        {
+          "time": "12:05",
+          "op": "SNAV"
+        },
+        {
+          "time": "13:15",
+          "op": "Gescab"
+        },
+        {
+          "time": "15:00",
+          "op": "NLG"
+        },
+        {
+          "time": "15:55",
+          "op": "SNAV"
+        },
+        {
+          "time": "17:00",
+          "op": "Laser Capri"
+        },
+        {
+          "time": "17:40",
+          "op": "SNAV"
+        },
+        {
+          "time": "18:30",
+          "op": "Gescab"
+        }
       ]
     },
     {
@@ -335,12 +788,28 @@
       "op": "ATC",
       "price": 2.5,
       "ticketURL": "https://www.atc.capri.it/",
-      "interval": { "start": "06:00", "end": "23:30", "every": 20 },
+      "interval": {
+        "start": "06:00",
+        "end": "23:30",
+        "every": 20
+      },
       "way": [
-        [40.5596, 14.2386],
-        [40.556, 14.234],
-        [40.5575, 14.227],
-        [40.5586, 14.2217]
+        [
+          40.5596,
+          14.2386
+        ],
+        [
+          40.556,
+          14.234
+        ],
+        [
+          40.5575,
+          14.227
+        ],
+        [
+          40.5586,
+          14.2217
+        ]
       ]
     },
     {
@@ -351,12 +820,28 @@
       "op": "ATC",
       "price": 2.5,
       "ticketURL": "https://www.atc.capri.it/",
-      "interval": { "start": "06:15", "end": "23:45", "every": 20 },
+      "interval": {
+        "start": "06:15",
+        "end": "23:45",
+        "every": 20
+      },
       "way": [
-        [40.5586, 14.2217],
-        [40.5575, 14.227],
-        [40.556, 14.234],
-        [40.5596, 14.2386]
+        [
+          40.5586,
+          14.2217
+        ],
+        [
+          40.5575,
+          14.227
+        ],
+        [
+          40.556,
+          14.234
+        ],
+        [
+          40.5596,
+          14.2386
+        ]
       ]
     },
     {
@@ -367,12 +852,28 @@
       "op": "ATC",
       "price": 2.5,
       "ticketURL": "https://www.atc.capri.it/",
-      "interval": { "start": "06:30", "end": "22:30", "every": 25 },
+      "interval": {
+        "start": "06:30",
+        "end": "22:30",
+        "every": 25
+      },
       "way": [
-        [40.5507, 14.243],
-        [40.548, 14.2418],
-        [40.5462, 14.2436],
-        [40.545, 14.2433]
+        [
+          40.5507,
+          14.243
+        ],
+        [
+          40.548,
+          14.2418
+        ],
+        [
+          40.5462,
+          14.2436
+        ],
+        [
+          40.545,
+          14.2433
+        ]
       ]
     },
     {
@@ -383,12 +884,28 @@
       "op": "ATC",
       "price": 2.5,
       "ticketURL": "https://www.atc.capri.it/",
-      "interval": { "start": "06:45", "end": "22:45", "every": 25 },
+      "interval": {
+        "start": "06:45",
+        "end": "22:45",
+        "every": 25
+      },
       "way": [
-        [40.545, 14.2433],
-        [40.5462, 14.2436],
-        [40.548, 14.2418],
-        [40.5507, 14.243]
+        [
+          40.545,
+          14.2433
+        ],
+        [
+          40.5462,
+          14.2436
+        ],
+        [
+          40.548,
+          14.2418
+        ],
+        [
+          40.5507,
+          14.243
+        ]
       ]
     }
   ]
