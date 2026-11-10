@@ -19,9 +19,11 @@ final class RouteTests: XCTestCase {
 
     func testExplicitTimesCarryOperator() {
         let ship = Catalog.all.first { $0.id == "ship-nap-cap" }!
-        let first = ship.departures(on: rome(2026, 7, 15)).first
-        XCTAssertEqual(first?.minute, 7 * 60)
-        XCTAssertEqual(first?.op, "Medmar")
+        let deps = ship.departures(on: rome(2026, 7, 15))
+        XCTAssertEqual(deps.first?.minute, 5 * 60 + 35)
+        XCTAssertEqual(deps.first?.op, "Caremar")
+        let medmar = deps.first { $0.minute == 7 * 60 }
+        XCTAssertEqual(medmar?.op, "Medmar")
     }
 
     func testSeasonBoundaries() {
