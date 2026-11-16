@@ -1,6 +1,6 @@
 {
-  "_readme": "Демо-мережа кораблів Італії (материкові порти, острови, Капрі). Часи й сезони — орієнтовні. | Synced Caremar/SNAV 2026-11-10 (backend/timetable-sync).",
-  "dataUpdated": "2026-11-10",
+  "_readme": "Демо-мережа кораблів Італії (материкові порти, острови, Капрі). Часи й сезони — орієнтовні. | Synced Caremar/SNAV 2026-11-10 (backend/timetable-sync). | Synced Caremar/SNAV 2026-11-16 (backend/timetable-sync).",
+  "dataUpdated": "2026-11-16",
   "routes": [
     {
       "id": "ship-nap-cap-hyd",
